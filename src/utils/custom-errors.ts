@@ -12,7 +12,11 @@ class CustomErrors extends Error {
 
 export const errorMapping = (error: any): CustomErrors => {
   if (error?.name === 'MongoServerError' && error?.code === 11000) {
-    return new CustomErrors([error.message], 400)
+    let message: string = error.message;
+    if(error?.modelName) {
+      message = `${error.modelName} already exist`
+    }
+    return new CustomErrors([message], 400)
   } else if (error.isJoi) {
     const messages: string[] = error.details.map((error:any) => {
       return error.message

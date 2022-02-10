@@ -20,7 +20,7 @@ UserSchema.pre<IUser>('save', async function (next) {
 
 UserSchema.post<IUser>('save', function (error: any, doc: IUser, next: Function) {
   if (error) {
-    error.message = "User already exist";
+    error.modelName = "User";
     next(error);
   } else {
     next();
