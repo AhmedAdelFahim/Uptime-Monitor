@@ -11,3 +11,12 @@ export const signUp = Joi.object({
 }).with('password', 'passwordConfirmation').messages({
   "object.with": "Password Confirmation must be matched with password"
 });
+
+export const login = Joi.object({
+  email: Joi.string().email().required().messages({
+    "any.required": "password is required"
+  }),
+  password: Joi.string().required().messages({
+    "any.required": "password is required"
+  }),
+});

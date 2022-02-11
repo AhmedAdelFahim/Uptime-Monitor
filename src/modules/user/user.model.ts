@@ -8,7 +8,6 @@ const UserSchema: Schema = new Schema({
 }, {timestamps: true});
 
 
-
 UserSchema.pre<IUser>('save', async function (next) {
   const user = this;
   const saltRounds = 8;
@@ -26,5 +25,26 @@ UserSchema.post<IUser>('save', function (error: any, doc: IUser, next: Function)
     next();
   }
 });
+
+UserSchema.method("toJSON", function toJSON() {
+  const user = this;
+  return {
+    email: user.email,
+  }
+})
+
+UserSchema.static("checkCredential", async function checkCredential(email, password) {
+  const user: IUser = await this.findOne({email});
+  const error = new Error("email or password is incorrect");
+  error.name = "InvalidCredential";
+  if (!user) {
+    throw error;
+  }
+  const isCorrectPassword = await bcrypt.compare(password, user.password);
+  if (!isCorrectPassword) {
+    throw error;
+  }
+  return user.toJSON();
+})
 const User: Model<IUser> = model('User', UserSchema);
 export default User

@@ -5,22 +5,29 @@ dotenv.config()
 export const config = {
     development: {
         DB_URL: process.env.DB_DEVELOPMENT_URL,
-        PORT: Number(process.env.PORT)
+        PORT: Number(process.env.PORT),
+        JWT_KEY: process.env.JWT_KEY
     },
     production: {
         DB_URL: process.env.DB_PRODUCTION_URL,
-        PORT: Number(process.env.PORT)
+        PORT: Number(process.env.PORT),
+        JWT_KEY: process.env.JWT_KEY
     },
     test: {
         DB_URL: process.env.DB_TEST_URL,
-        PORT: Number(process.env.PORT)
+        PORT: Number(process.env.PORT),
+        JWT_KEY: process.env.JWT_KEY
     }
 }
 
 export const checkEnvVariables = (): void => {
-    const {NODE_ENV} = process.env;
+    const {NODE_ENV, JWT_KEY} = process.env;
     if (!NODE_ENV) {
         throw new Error('NODE_ENV must be defined!');
+    }
+
+    if (!JWT_KEY) {
+        throw new Error('JWT_KEY must be defined!');
     }
 
     if (!process.env[`DB_${NODE_ENV.toUpperCase()}_URL`]) {
