@@ -66,6 +66,19 @@ UserSchema.static("verifyAccount", async function verifyAccount(email,) {
   user.isVerified = true;
   await user.save()
   return user;
-})
+});
+
+UserSchema.static("findByEmail", async function findByEmail(email,) {
+  const user: IUser = await this.findOne({email});
+  const error = new Error("this account doesn't exist");
+  // @ts-ignore
+  error.code = 404;
+  if (!user) {
+    throw error;
+  }
+  return user;
+});
+
+
 const User: Model<IUser> = model('User', UserSchema);
 export default User

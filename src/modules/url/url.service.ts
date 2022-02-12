@@ -2,8 +2,10 @@ import {IURL, Protocol} from "./url.interface";
 import {URL} from "url";
 import Axios from "../../utils/axios";
 import * as https from "https";
-import {RequestStatus} from "./monitor-logs/monitor-logs.interface";
+import {IMonitorLogs, RequestStatus} from "./monitor-logs/monitor-logs.interface";
 import {saveLog} from "./monitor-logs/monitor-log.service";
+import {notify} from "../../utils/notifications/notification-helper";
+import {Redis} from "../../utils/redis";
 
 export async function checkURL(data: IURL) {
   const log: any = {};
@@ -32,14 +34,21 @@ export async function checkURL(data: IURL) {
     log.error = error?.message || "";
   } finally {
     // save log
-    await saveLog(log);
+    const savedLog = await saveLog(log);
+    await updateCachedURL(data, savedLog)
+    notify(data, savedLog);
   }
 }
 
-function buildRequestConfig(data: IURL) {
+export function buildURL(data: IURL) {
   const url = new URL(`${data.protocol}://${data.url}`);
   url.port = String(data.port || "");
   url.pathname = data.path || "";
+  return url;
+}
+
+function buildRequestConfig(data: IURL) {
+  const url = buildURL(data);
   const config: any = {
     method: 'get',
     url: url.href,
@@ -57,4 +66,17 @@ function buildRequestConfig(data: IURL) {
     config.auth = data.authentication
   }
   return config;
+}
+
+export async function updateCachedURL(url: IURL, log: IMonitorLogs) {
+  const oldCache = await Redis.getHash(url._id);
+  let downs = 0;
+  let newStatus = log.status;
+  let oldStatus = oldCache?.newStatus || "";
+  if (oldCache?.newStatus === RequestStatus.DOWN && newStatus === RequestStatus.DOWN) {
+    downs = Number(oldCache?.downs || 0) + 1;
+  }
+  await Redis.setHash(url._id, "downs", downs);
+  await Redis.setHash(url._id, "newStatus", newStatus);
+  await Redis.setHash(url._id, "oldStatus", oldStatus);
 }

@@ -26,7 +26,7 @@ export interface IURL extends Document {
   webhook?: string;
   timeout: number | 5; // seconds
   interval: number | 10; // minutes
-  threshold?: number;
+  threshold: number | 1;
   authentication?: IAuthentication;
   httpHeaders?: object;
   assert?: IAssert;
