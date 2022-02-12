@@ -4,7 +4,8 @@ import * as bcrypt from 'bcrypt';
 
 const UserSchema: Schema = new Schema({
   email: {type: String, required: true, unique: true,},
-  password: {type: String, required: true}
+  password: {type: String, required: true},
+  isVerified: {type: Boolean, optional: true, default: false}
 }, {timestamps: true});
 
 
@@ -30,13 +31,16 @@ UserSchema.method("toJSON", function toJSON() {
   const user = this;
   return {
     email: user.email,
+    userId: user._id,
+    isVerified: user.isVerified,
   }
 })
 
 UserSchema.static("checkCredential", async function checkCredential(email, password) {
   const user: IUser = await this.findOne({email});
   const error = new Error("email or password is incorrect");
-  error.name = "InvalidCredential";
+  // @ts-ignore
+  error.code = 400;
   if (!user) {
     throw error;
   }

@@ -7,7 +7,6 @@ import {signUp,login} from "./user.schema";
 const userRouter = express.Router();
 
 userRouter.post('/signup', validateRequest({body: signUp}), UserController.signUp);
-// userRouter.get('/users/:id', validateRequest(getUserValidation), UserController.getUser);
 userRouter.post('/login', validateRequest({body: login}), UserController.login, UserController.login);
 
 export default userRouter;

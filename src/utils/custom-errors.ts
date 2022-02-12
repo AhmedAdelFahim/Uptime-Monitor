@@ -11,23 +11,28 @@ class CustomErrors extends Error {
 
 
 export const errorMapping = (error: any): CustomErrors => {
-  if (error?.name === 'MongoServerError' && error?.code === 11000) {
-    let message: string = error.message;
-    if (error?.modelName) {
-      message = `${error.modelName} already exist`
+  let messages: string[] = ["Internal Server Error"];
+  let code: number = 500;
+  if (error?.code) {
+    if (error?.name === 'MongoServerError' && error?.code === 11000) {
+      let message: string = error.message;
+      if (error?.modelName) {
+        message = `${error.modelName} already exist`
+      }
+      messages = [message];
+      code = 400
+    } else if (error?.code === 400 || error?.code === 401) {
+      messages = [error.message];
+      code = error.code;
     }
-    return new CustomErrors([message], 400)
   } else if (error.isJoi) {
-    const messages: string[] = error.details.map((error: any) => {
+    messages = error.details.map((error: any) => {
       return error.message
     });
-    return new CustomErrors(messages, 400)
-  } else if (error?.code === "InvalidCredential") {
-    return new CustomErrors([error.message], 400)
-  } else {
-    console.log(error)
-    return new CustomErrors(["Internal Server Error"], 500);
+    code = 400
   }
+
+  return new CustomErrors(messages, code);
 }
 
 export default CustomErrors;
