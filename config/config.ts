@@ -3,53 +3,62 @@ import * as dotenv from "dotenv";
 
 dotenv.config()
 export const config = {
-    development: {
-        DB_URL: process.env.DB_DEVELOPMENT_URL,
-        PORT: Number(process.env.PORT),
-        JWT_KEY: process.env.JWT_KEY,
-        REDIS_HOST: process.env.REDIS_HOST,
-        REDIS_PORT: Number(process.env.REDIS_PORT),
-    },
-    production: {
-        DB_URL: process.env.DB_PRODUCTION_URL,
-        PORT: Number(process.env.PORT),
-        JWT_KEY: process.env.JWT_KEY,
-        REDIS_HOST: process.env.REDIS_HOST,
-        REDIS_PORT: Number(process.env.REDIS_PORT),
-    },
-    test: {
-        DB_URL: process.env.DB_TEST_URL,
-        PORT: Number(process.env.PORT),
-        JWT_KEY: process.env.JWT_KEY,
-        REDIS_HOST: process.env.REDIS_HOST,
-        REDIS_PORT: Number(process.env.REDIS_PORT),
-    }
+  development: {
+    DB_URL: process.env.DB_DEVELOPMENT_URL,
+    PORT: Number(process.env.PORT),
+    JWT_KEY: process.env.JWT_KEY,
+    JWT_VERIFICATION_KEY: process.env.JWT_VERIFICATION_KEY,
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: Number(process.env.REDIS_PORT),
+    EMAIL_PORT: Number(process.env.EMAIL_PORT),
+    EMAIL_HOST: process.env.EMAIL_HOST,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    EMAIL_USERNAME: process.env.EMAIL_USERNAME,
+    EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
+  },
+  production: {
+    DB_URL: process.env.DB_PRODUCTION_URL,
+    PORT: Number(process.env.PORT),
+    JWT_KEY: process.env.JWT_KEY,
+    JWT_VERIFICATION_KEY: process.env.JWT_VERIFICATION_KEY,
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: Number(process.env.REDIS_PORT),
+    EMAIL_PORT: Number(process.env.EMAIL_PORT),
+    EMAIL_HOST: process.env.EMAIL_HOST,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    EMAIL_USERNAME: process.env.EMAIL_USERNAME,
+    EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
+  },
+  test: {
+    DB_URL: process.env.DB_TEST_URL,
+    PORT: Number(process.env.PORT),
+    JWT_KEY: process.env.JWT_KEY,
+    JWT_VERIFICATION_KEY: process.env.JWT_VERIFICATION_KEY,
+    REDIS_HOST: process.env.REDIS_HOST,
+    REDIS_PORT: Number(process.env.REDIS_PORT),
+    EMAIL_PORT: Number(process.env.EMAIL_PORT),
+    EMAIL_HOST: process.env.EMAIL_HOST,
+    EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
+    EMAIL_USERNAME: process.env.EMAIL_USERNAME,
+    EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
+  }
 }
 
 export const checkEnvVariables = (): void => {
-    const {NODE_ENV, JWT_KEY, REDIS_PORT, REDIS_HOST} = process.env;
-    if (!NODE_ENV) {
-        throw new Error('NODE_ENV must be defined!');
+  const variablesToBeChecked: string[] = ["NODE_ENV", "JWT_KEY", "REDIS_PORT", "REDIS_HOST", "EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD", "JWT_VERIFICATION_KEY","EMAIL_VERIFICATION_URL"];
+  const {NODE_ENV} = process.env;
+  variablesToBeChecked.forEach((variable: string) => {
+    if (!process.env[variable]) {
+      throw new Error(`${variable} must be defined!`);
     }
+  })
 
-    if (!JWT_KEY) {
-        throw new Error('JWT_KEY must be defined!');
-    }
-
-    if (!JWT_KEY) {
-        throw new Error('REDIS_PORT must be defined!');
-    }
-
-    if (!JWT_KEY) {
-        throw new Error('REDIS_HOST must be defined!');
-    }
-
-    if (!process.env[`DB_${NODE_ENV.toUpperCase()}_URL`]) {
-        throw new Error(`DB_${NODE_ENV.toUpperCase()}_URL must be defined!`);
-    }
+  if (!process.env[`DB_${(NODE_ENV || "").toUpperCase()}_URL`]) {
+    throw new Error(`DB_${(NODE_ENV || "").toUpperCase()}_URL must be defined!`);
+  }
 }
 
 export const getConfig = (): IConfig => {
-    // @ts-ignore
-    return config[process.env.NODE_ENV!]!;
+  // @ts-ignore
+  return config[process.env.NODE_ENV!]!;
 }

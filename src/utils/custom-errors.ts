@@ -11,6 +11,7 @@ class CustomErrors extends Error {
 
 
 export const errorMapping = (error: any): CustomErrors => {
+  console.log("error",error)
   let messages: string[] = ["Internal Server Error"];
   let code: number = 500;
   if (error?.code) {

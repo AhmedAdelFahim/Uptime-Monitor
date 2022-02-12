@@ -38,8 +38,7 @@ UserSchema.method("toJSON", function toJSON() {
 
 UserSchema.static("checkCredential", async function checkCredential(email, password) {
   const user: IUser = await this.findOne({email});
-  const error = new Error("email or password is incorrect");
-  // @ts-ignore
+  const error: any = new Error("email or password is incorrect");
   error.code = 400;
   if (!user) {
     throw error;
@@ -48,7 +47,25 @@ UserSchema.static("checkCredential", async function checkCredential(email, passw
   if (!isCorrectPassword) {
     throw error;
   }
+  if (!user.isVerified) {
+    const error: any = new Error("email is not verified");
+    error.code = 400;
+    throw error;
+  }
   return user.toJSON();
+})
+
+UserSchema.static("verifyAccount", async function verifyAccount(email,) {
+  const user: IUser = await this.findOne({email});
+  const error = new Error("this account doesn't exist");
+  // @ts-ignore
+  error.code = 404;
+  if (!user) {
+    throw error;
+  }
+  user.isVerified = true;
+  await user.save()
+  return user;
 })
 const User: Model<IUser> = model('User', UserSchema);
 export default User

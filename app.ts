@@ -6,11 +6,6 @@ const app = express();
 app.use(express.json());
 app.use("/api", apiRouter);
 
-app.get('/', (req: Request, res: Response): void => {
-  res.send('Welcome to the home page!');
-});
-
-
 app.all('*', async (req: Request, res: Response) => {
   res.status(404).send('Not Found!');
 });
