@@ -24,9 +24,9 @@ class JobScheduler {
     console.log("job scheduler initialized")
   }
 
-  static addJob(data: IURL) {
+  static async addJob(data: IURL) {
     const cron: string = convertSecondsToCronFormat(data.interval);
-    this._queue.add(data, {
+    return this._queue.add(data, {
       repeat: {cron},
       jobId: data.id.toString(),
     });

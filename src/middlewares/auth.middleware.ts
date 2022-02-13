@@ -11,7 +11,7 @@ export async function auth(req: Request, res: Response, next: NextFunction) {
       error.code = 400
       throw error;
     }
-    const decoded = verifyJWT(token.split(" ")?.[1] || "", getConfig().JWT_KEY)
+    const decoded = await verifyJWT(token.split(" ")?.[1] || "", getConfig().JWT_KEY)
     if (!decoded) {
       const error = new Error("Unauthorized")
       // @ts-ignore

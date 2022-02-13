@@ -11,9 +11,10 @@ class CustomErrors extends Error {
 
 
 export const errorMapping = (error: any): CustomErrors => {
-  console.log("error",error)
+  console.log("error", error)
   let messages: string[] = ["Internal Server Error"];
   let code: number = 500;
+  const handledCodes = [400, 401, 404]
   if (error?.code) {
     if (error?.name === 'MongoServerError' && error?.code === 11000) {
       let message: string = error.message;
@@ -22,7 +23,7 @@ export const errorMapping = (error: any): CustomErrors => {
       }
       messages = [message];
       code = 400
-    } else if (error?.code === 400 || error?.code === 401) {
+    } else if (handledCodes.includes(error?.code)) {
       messages = [error.message];
       code = error.code;
     }

@@ -18,4 +18,8 @@ export class Redis {
   static async getHash(key: string) {
     return await this._client.HGETALL(key)
   }
+
+  static async deleteKey(key:string) {
+    return await this._client.DEL(key)
+  }
 }

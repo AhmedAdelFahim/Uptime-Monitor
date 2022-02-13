@@ -32,7 +32,5 @@ export const create = Joi.object({
     then: Joi.boolean().required(),
     otherwise: Joi.boolean().optional()
   })
-
-
 });
 

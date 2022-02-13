@@ -7,7 +7,7 @@ app.use(express.json());
 app.use("/api", apiRouter);
 
 app.all('*', async (req: Request, res: Response) => {
-  res.status(404).send('Not Found!');
+  res.status(404).send({messages: ['Not Found!'], code: 404});
 });
 
 app.use(errorHandlerMiddleware)
