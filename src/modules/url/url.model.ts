@@ -10,7 +10,7 @@ const URLSchema: Schema = new Schema({
   webhook: {type: String, optional: true, default: ""},
   port: {type: Number, optional: true, min: 0, max: 65535},
   timeout: {type: Number, optional: true, default: 5},
-  interval: {type: Number, optional: true, default: 10},
+  interval: {type: String, optional: true, default: "10m"},
   threshold: {type: Number, optional: true, default: 1},
   authentication: {
     username: {

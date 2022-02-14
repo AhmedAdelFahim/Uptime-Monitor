@@ -31,7 +31,8 @@ class UserController {
   async verifyAccount(req: Request, res: Response, next: NextFunction) {
     try {
       const {params: {token}} = req;
-      const payload = verifyJWT(token, getConfig().JWT_VERIFICATION_KEY);
+      const payload = await verifyJWT(token, getConfig().JWT_VERIFICATION_KEY);
+      console.log(payload)
       // @ts-ignore
       await User.verifyAccount(payload.email);
       res.status(200).send({message: "account is verified successfully"});

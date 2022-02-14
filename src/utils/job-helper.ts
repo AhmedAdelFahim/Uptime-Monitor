@@ -1,7 +1,7 @@
-export function convertSecondsToCronFormat(minutes: number) {
-  const nHours: number = Math.floor(minutes / 60);
-  const nMinutes: number = Math.floor(minutes - (nHours * 60))
-  const minutesPart: string = nMinutes ? `*/${nMinutes}` : "*"
-  const hoursPart: string = nHours ? `*/${nHours}` : "*"
+export function convertSecondsToCronFormat(interval: string) {
+  const intervalNumber = Number(`${interval[0]}${interval[1]}`);
+  const intervalUnit = interval[2];
+  const minutesPart: string = intervalUnit === "m" ? `*/${intervalNumber}` : "*"
+  const hoursPart: string = intervalUnit === "h" ? `*/${intervalNumber}` : "*"
   return `${minutesPart} ${hoursPart} * * *`
 }

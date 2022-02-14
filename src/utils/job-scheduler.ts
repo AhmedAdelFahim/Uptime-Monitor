@@ -26,6 +26,7 @@ class JobScheduler {
 
   static async addJob(data: IURL) {
     const cron: string = convertSecondsToCronFormat(data.interval);
+    console.log(cron,"LLLL")
     return this._queue.add(data, {
       repeat: {cron},
       jobId: data.id.toString(),
