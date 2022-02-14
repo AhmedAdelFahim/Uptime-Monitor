@@ -2,28 +2,10 @@ import request from "supertest";
 import app from "../../../app"
 import {expect} from "chai";
 import {
-  initializeDatabase,
   ValidUserForSigningUp,
-  teardown,
   VerifiedUser,
   NotVerifiedUser
 } from "../../test/user-helper";
-
-before(function (done) {
-  initializeDatabase().then(() => {
-    done()
-  }).catch((err) => {
-    done(err)
-  })
-});
-
-after(function (done) {
-  teardown().then(() => {
-    done()
-  }).catch((err) => {
-    done(err)
-  })
-})
 
 describe("User APIs Testing", function () {
   it("Should signup a new user.", function (done) {

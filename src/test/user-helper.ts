@@ -1,6 +1,5 @@
-import User from "../modules/user/user.model";
-import {startDbConnection} from "../../config/db-connection";
-import mongoose from "mongoose"
+import {generateJWT} from "../utils/jwt-helper";
+import {getConfig} from "../../config/config";
 export const ValidUserForSigningUp = {
   "email":"reluttr@grecc.me",
   "password":"123456",
@@ -21,13 +20,6 @@ export const NotVerifiedUser = {
   isVerified: false
 }
 
-export async function initializeDatabase() {
-  await startDbConnection();
-  await mongoose.connection.dropDatabase()
-  await User.create(VerifiedUser);
-  await User.create(NotVerifiedUser);
-}
 
-export async function teardown() {
-  await mongoose.connection.close()
-}
+export const token = generateJWT({userId:VerifiedUser._id,email:VerifiedUser.email,isVerified: true}, getConfig().JWT_KEY)
+

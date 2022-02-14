@@ -10,7 +10,7 @@
     "build": "rm -rf ./dist/* && tsc --build",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "test": "npx mocha -r ts-node/register src/**/*.test.ts"
+    "test": "npx mocha -r ts-node/register ./src/test/init.ts src/**/*.test.ts"
   },
   "keywords": [],
   "author": "",

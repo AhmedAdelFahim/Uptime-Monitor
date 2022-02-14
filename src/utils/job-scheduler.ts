@@ -1,13 +1,13 @@
 import Queue, {Job} from "bull";
 import {getConfig} from "../../config/config";
 import {IURL} from "../modules/url/url.interface";
-import {convertSecondsToCronFormat} from "./job-helper";
+import {convertIntervalToCronFormat} from "./job-helper";
 
 class JobScheduler {
   static _queue: any;
 
   static initializeScheduler(processCallback: Function) {
-    this._queue = new Queue("job-scheduler", {
+    this._queue = new Queue(getConfig().QUEUE_NAME, {
       redis: {
         host: getConfig().REDIS_HOST,
         port: getConfig().REDIS_PORT
@@ -25,7 +25,7 @@ class JobScheduler {
   }
 
   static async addJob(data: IURL) {
-    const cron: string = convertSecondsToCronFormat(data.interval);
+    const cron: string = convertIntervalToCronFormat(data.interval);
     console.log(cron,"LLLL")
     return this._queue.add(data, {
       repeat: {cron},
@@ -55,6 +55,9 @@ class JobScheduler {
     this._queue.clean(0,"failed");
   }
 
+  static async closeQueue() {
+    await this._queue.close();
+  }
 }
 
 export default JobScheduler

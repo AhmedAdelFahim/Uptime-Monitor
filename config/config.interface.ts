@@ -10,4 +10,5 @@ export interface IConfig {
   EMAIL_PASSWORD: string,
   JWT_VERIFICATION_KEY: string,
   EMAIL_VERIFICATION_URL:string,
+  QUEUE_NAME:string,
 }
