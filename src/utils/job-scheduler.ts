@@ -38,6 +38,8 @@ class JobScheduler {
     const jobToBeRemoved = jobs.find((job: Job) => job.id === jobName);
     if (jobToBeRemoved?.key) {
       await this._queue.removeRepeatableByKey(jobToBeRemoved.key)
+    } else {
+      console.log("job not found")
     }
   }
 

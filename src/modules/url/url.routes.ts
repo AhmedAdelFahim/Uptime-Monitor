@@ -8,6 +8,7 @@ import {auth} from "../../middlewares/auth.middleware";
 const urlRouter = express.Router();
 
 urlRouter.post('/',auth, validateRequest({body: create}), URLController.create);
+urlRouter.put('/:id',auth, validateRequest({body: create}), URLController.update);
 urlRouter.get('/',auth, URLController.getURLs);
 urlRouter.delete('/:id',auth, URLController.deleteURL);
 

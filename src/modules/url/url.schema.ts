@@ -15,7 +15,6 @@ export const create = Joi.object({
   path: Joi.string().trim().optional(),
   port: Joi.number().integer().port().optional(),
   threshold: Joi.number().integer().min(1).optional(),
-  // interval: Joi.number().integer().positive().min(1).optional(),
   interval: Joi.string().trim().pattern(new RegExp(/(^([0-1]?[0-9]|2[0-3])h$)|(^[0-5][0-9]m$)/)).optional()
     .messages({
       "string.pattern.base":"interval must be value between [00m-59m] or [00h-23h] m for minute and h for hour."

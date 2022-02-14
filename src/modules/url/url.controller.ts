@@ -11,11 +11,34 @@ class UserController {
       // @ts-ignore
       const {body, user} = req;
       const url: IURL = await URL.create({...body, userId: user.userId})
-      const job:Job = await JobScheduler.addJob(url);
+      const job: Job = await JobScheduler.addJob(url);
       // @ts-ignore
       console.log(job?.opts?.repeat?.jobId)
       console.log(job)
       res.status(201).send({message: "url is created successfully"});
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  async update(req: Request, res: Response, next: NextFunction) {
+    try {
+      // @ts-ignore
+      const {body, user, params: {id}} = req;
+      const updatedURL: IURL | null = await URL.findOneAndUpdate({userId: user.userId, _id: id}, body, {new: true})
+      console.log(updatedURL)
+      if (!updatedURL) {
+        const error: any = new Error("URL not found");
+        error.code = 404;
+        throw error;
+
+      }
+      await JobScheduler.removeJob(id);
+      const job: Job = await JobScheduler.addJob(updatedURL);
+      // @ts-ignore
+      console.log(job?.opts?.repeat?.jobId)
+      console.log(job)
+      res.status(201).send({message: "url is updated successfully"});
     } catch (e) {
       return next(e);
     }
@@ -36,9 +59,9 @@ class UserController {
     try {
       // @ts-ignore
       const {params: {id}, user} = req;
-      const deletedURL:IURL | null = await URL.findOneAndDelete({_id: id, userId: user.userId});
-      if(!deletedURL) {
-        const error:any = new Error("URL not found");
+      const deletedURL: IURL | null = await URL.findOneAndDelete({_id: id, userId: user.userId});
+      if (!deletedURL) {
+        const error: any = new Error("URL not found");
         error.code = 404;
         throw error;
 
