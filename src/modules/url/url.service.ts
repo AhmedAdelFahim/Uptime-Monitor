@@ -10,6 +10,7 @@ import {Redis} from "../../utils/redis";
 export async function checkURL(data: IURL) {
   const log: any = {};
   log.urlId = data._id
+  log.userId = data.userId
   try {
     const config = buildRequestConfig(data);
     const response: any = await Axios(config);

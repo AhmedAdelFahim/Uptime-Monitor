@@ -8,6 +8,7 @@ import {sendVerificationMail} from "./user.service";
 class UserController {
   async signUp(req: Request, res: Response, next: NextFunction) {
     try {
+      // @ts-ignore
       const user: IUser = await User.create(req.body);
       await sendVerificationMail(user.email);
       res.status(201).send({message: "sign up successfully"});

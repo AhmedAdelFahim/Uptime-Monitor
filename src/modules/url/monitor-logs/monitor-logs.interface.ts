@@ -10,5 +10,6 @@ export interface IMonitorLogs extends Document {
   responseTime: number;
   status:RequestStatus;
   error:string;
-  createdAt:Date
+  createdAt:Date,
+  userId:Schema.Types.ObjectId
 }
