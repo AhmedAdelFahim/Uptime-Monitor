@@ -65,6 +65,7 @@ export const checkEnvVariables = (): void => {
 }
 
 export const getConfig = (): IConfig => {
+  console.log(config)
   // @ts-ignore
   return config[process.env.NODE_ENV!]!;
 }
