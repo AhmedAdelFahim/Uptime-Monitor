@@ -5,6 +5,7 @@ dotenv.config()
 export const config = {
   development: {
     DB_URL: process.env.DB_DEVELOPMENT_URL,
+    NODE_ENV: process.env.NODE_ENV,
     PORT: Number(process.env.PORT),
     JWT_KEY: process.env.JWT_KEY,
     JWT_VERIFICATION_KEY: process.env.JWT_VERIFICATION_KEY,
@@ -18,6 +19,7 @@ export const config = {
     QUEUE_NAME: process.env.QUEUE_NAME,
   },
   production: {
+    NODE_ENV: process.env.NODE_ENV,
     DB_URL: process.env.DB_PRODUCTION_URL,
     PORT: Number(process.env.PORT),
     JWT_KEY: process.env.JWT_KEY,
@@ -32,6 +34,7 @@ export const config = {
     QUEUE_NAME: process.env.QUEUE_NAME,
   },
   test: {
+    NODE_ENV: process.env.NODE_ENV,
     DB_URL: process.env.DB_TEST_URL,
     PORT: Number(process.env.PORT),
     JWT_KEY: process.env.JWT_KEY,

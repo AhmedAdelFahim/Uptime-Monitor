@@ -11,4 +11,5 @@ export interface IConfig {
   JWT_VERIFICATION_KEY: string,
   EMAIL_VERIFICATION_URL:string,
   QUEUE_NAME:string,
+  NODE_ENV:string,
 }
