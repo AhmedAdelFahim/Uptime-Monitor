@@ -1,7 +1,8 @@
 import Queue, {Job} from "bull";
-import {getConfig} from "../../config/config";
-import {IURL} from "../modules/url/url.interface";
+import {getConfig} from "../../../config/config";
+import {IURL} from "../../modules/url/url.interface";
 import {convertIntervalToCronFormat} from "./job-helper";
+import Logger from "../../middlewares/logger";
 
 class JobScheduler {
   static _queue: any;
@@ -15,21 +16,20 @@ class JobScheduler {
     })
 
     this._queue.process(async function (job: Job) {
-      console.log(`Job ${job.id} running `, new Date());
+      Logger.log("info",`Job ${job.id} running`);
       await processCallback(job.data)
     })
     this._queue.on("cleaned", function (jobs:any, type:string) {
-      console.log("Cleaned %s %s jobs", jobs.length, type);
+      Logger.log("debug",`Cleaned ${jobs.length} ${type} jobs`);
     })
-    console.log("job scheduler initialized")
+    Logger.log("info","job scheduler initialized")
   }
 
   static async addJob(data: IURL) {
     const cron: string = convertIntervalToCronFormat(data.interval);
-    console.log(cron,"LLLL")
     return this._queue.add(data, {
       repeat: {cron},
-      jobId: data.id.toString(),
+      jobId: data._id.toString(),
     });
   }
 
@@ -37,9 +37,10 @@ class JobScheduler {
     const jobs = await this._queue.getRepeatableJobs();
     const jobToBeRemoved = jobs.find((job: Job) => job.id === jobName);
     if (jobToBeRemoved?.key) {
-      await this._queue.removeRepeatableByKey(jobToBeRemoved.key)
+      await this._queue.removeRepeatableByKey(jobToBeRemoved.key);
+      return jobToBeRemoved;
     } else {
-      console.log("job not found")
+      Logger.log("warn","job not found")
     }
   }
 

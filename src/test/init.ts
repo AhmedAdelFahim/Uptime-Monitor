@@ -1,7 +1,7 @@
-import {initializeDatabase, teardown} from "./index";
+import {initialize, teardown} from "./index";
 
 before(function (done) {
-  initializeDatabase().then(() => {
+  initialize().then(() => {
     done()
   }).catch((err) => {
     done(err)

@@ -18,7 +18,7 @@ export function prepareReport(logs: IMonitorLogs[]) {
   logs.forEach((log) => {
     report.responseTime += log.responseTime;
     if(log.status === RequestStatus.DOWN) {
-      report.outages;
+      report.outages++;
       // @ts-ignore
       report.downtime += (convertIntervalToSeconds(log?.urlId?.interval))
     } else {

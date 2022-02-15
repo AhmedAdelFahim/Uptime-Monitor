@@ -1,4 +1,5 @@
 import {createClient} from 'redis';
+import Logger from "../middlewares/logger";
 
 export class Redis {
   static _client: any;
@@ -6,8 +7,8 @@ export class Redis {
   static async initializeRedis() {
     this._client = createClient();
 
-    this._client.on('error', (err: any) => console.log('Redis Client Error', err));
-    this._client.on("connect", () => console.log('Redis connected'))
+    this._client.on('error', (err: any) => Logger.log("error",`Redis Client Error ${JSON.stringify(err)}`));
+    this._client.on("connect", () => Logger.log("info",'Redis connected'))
     await this._client.connect();
   }
 
@@ -21,5 +22,9 @@ export class Redis {
 
   static async deleteKey(key:string) {
     return await this._client.DEL(key)
+  }
+
+  static async closeConnection() {
+    return this._client.quit();
   }
 }

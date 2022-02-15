@@ -1,7 +1,7 @@
 import {Request, Response, NextFunction} from "express";
 import {IURL} from "./url.interface";
 import URL from "./url.model";
-import JobScheduler from "../../utils/job-scheduler";
+import JobScheduler from "../../utils/job-scheduler/job-scheduler";
 import {Redis} from "../../utils/redis";
 import {Job} from "bull";
 
@@ -12,11 +12,9 @@ class UserController {
       const {body, user} = req;
       const url: IURL = await URL.create({...body, userId: user.userId})
       const job: Job = await JobScheduler.addJob(url);
-      // @ts-ignore
-      console.log(job?.opts?.repeat?.jobId)
-      console.log(job)
       res.status(201).send({message: "url is created successfully"});
     } catch (e) {
+      console.log(e)
       return next(e);
     }
   }
@@ -35,10 +33,7 @@ class UserController {
       }
       await JobScheduler.removeJob(id);
       const job: Job = await JobScheduler.addJob(updatedURL);
-      // @ts-ignore
-      console.log(job?.opts?.repeat?.jobId)
-      console.log(job)
-      res.status(201).send({message: "url is updated successfully"});
+      res.status(200).send({message: "url is updated successfully"});
     } catch (e) {
       return next(e);
     }

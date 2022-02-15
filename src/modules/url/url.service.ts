@@ -48,7 +48,7 @@ export function buildURL(data: IURL) {
   return url;
 }
 
-function buildRequestConfig(data: IURL) {
+export function buildRequestConfig(data: IURL) {
   const url = buildURL(data);
   const config: any = {
     method: 'get',
