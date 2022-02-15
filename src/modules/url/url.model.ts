@@ -1,6 +1,7 @@
 import {model, Model, Schema} from 'mongoose';
 import {IURL, Protocol} from "./url.interface";
 import MonitorLogsModel from "./monitor-logs/monitor-logs.model";
+import Logger from "../../middlewares/logger";
 
 const URLSchema: Schema = new Schema({
   userId: {type: Schema.Types.ObjectId, required: true, ref: "User",},
@@ -51,7 +52,7 @@ URLSchema.post<IURL>('save', function (error: any, doc: IURL, next: Function) {
 URLSchema.pre('findOneAndDelete', async function(next) {
   const docToDeleted = await this.model.findOne(this.getQuery());
   await MonitorLogsModel.remove({urlId: docToDeleted?._id});
-  console.log("logs deleted")
+  Logger.log("debug","logs deleted")
   next();
 });
 

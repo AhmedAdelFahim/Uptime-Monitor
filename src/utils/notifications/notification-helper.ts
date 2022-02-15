@@ -5,6 +5,7 @@ import {IUser} from "../../modules/user/user.interface";
 import User from "../../modules/user/user.model";
 import {notifyByWebhook, prepareWebhookData} from "./webhook-notification";
 import {Redis} from "../redis";
+import Logger from "../../middlewares/logger";
 
 export async function notify(url: IURL, log: IMonitorLogs) {
   const user: IUser | null = await User.findOne({_id: url.userId});
@@ -18,7 +19,7 @@ export async function notify(url: IURL, log: IMonitorLogs) {
       await notifyByWebhook(prepareWebhookData(url, log))
     }
   } else {
-    console.log(`url ${url.name} doesn't reach threshold ${url.threshold}`)
+    Logger.log("debug", `url ${url.name} doesn't reach threshold ${url.threshold}`)
   }
 
 }

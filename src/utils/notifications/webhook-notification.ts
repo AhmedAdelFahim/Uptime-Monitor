@@ -3,6 +3,7 @@ import {IURL} from "../../modules/url/url.interface";
 import {IMonitorLogs} from "../../modules/url/monitor-logs/monitor-logs.interface";
 import {buildURL} from "../../modules/url/url.service";
 import Axios from "../axios";
+import Logger from "../../middlewares/logger";
 
 export async function notifyByWebhook(notificationData:IWebhookNotification) {
   try {
@@ -12,7 +13,7 @@ export async function notifyByWebhook(notificationData:IWebhookNotification) {
       eventTime: notificationData.eventTime
     })
   } catch (e) {
-    console.log("error in notifying by webhook")
+    Logger.log("warn","error in notifying by webhook")
   }
 
 }

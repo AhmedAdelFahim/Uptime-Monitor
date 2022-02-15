@@ -14,7 +14,6 @@ class UserController {
       const job: Job = await JobScheduler.addJob(url);
       res.status(201).send({message: "url is created successfully"});
     } catch (e) {
-      console.log(e)
       return next(e);
     }
   }
@@ -24,7 +23,6 @@ class UserController {
       // @ts-ignore
       const {body, user, params: {id}} = req;
       const updatedURL: IURL | null = await URL.findOneAndUpdate({userId: user.userId, _id: id}, body, {new: true})
-      console.log(updatedURL)
       if (!updatedURL) {
         const error: any = new Error("URL not found");
         error.code = 404;

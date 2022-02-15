@@ -6,6 +6,7 @@ import {IURL} from "../../modules/url/url.interface";
 import {IMonitorLogs} from "../../modules/url/monitor-logs/monitor-logs.interface";
 import {IUser} from "../../modules/user/user.interface";
 import {buildURL} from "../../modules/url/url.service"
+import Logger from "../../middlewares/logger";
 export async function notifyByMail(notificationData:IEmailNotification) {
   try {
     await sendEmail({
@@ -15,7 +16,7 @@ export async function notifyByMail(notificationData:IEmailNotification) {
       html: getNotificationEmailHtml(notificationData)
     })
   } catch (e) {
-    console.log("error in notifying by mail")
+    Logger.log("warn","error in notifying by mail")
   }
 
 }

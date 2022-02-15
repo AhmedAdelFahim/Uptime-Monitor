@@ -57,7 +57,6 @@ UserSchema.static("checkCredential", async function checkCredential(email, passw
 
 UserSchema.static("verifyAccount", async function verifyAccount(email,) {
   const user: IUser = await this.findOne({email});
-  console.log(email,user)
   const error = new Error("this account doesn't exist");
   // @ts-ignore
   error.code = 404;

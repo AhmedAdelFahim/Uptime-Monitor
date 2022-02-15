@@ -1,3 +1,5 @@
+import Logger from "../middlewares/logger";
+
 class CustomErrors extends Error {
   code: number;
   messages: string[];
@@ -11,7 +13,7 @@ class CustomErrors extends Error {
 
 
 export const errorMapping = (error: any): CustomErrors => {
-  console.log("error", error)
+  Logger.log("error", JSON.stringify(error))
   let messages: string[] = ["Internal Server Error"];
   let code: number = 500;
   const handledCodes = [400, 401, 404]

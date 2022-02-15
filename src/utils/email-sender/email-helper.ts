@@ -1,6 +1,7 @@
 import nodemailer, {Transporter} from "nodemailer";
 import {IEmailConfig, IEmailMessage} from "./email.interface";
 import {getConfig} from "../../../config/config";
+import Logger from "../../middlewares/logger";
 
 export function getEmailConfig() : IEmailConfig {
 
@@ -22,6 +23,6 @@ export function getTransporter(emailConfig:IEmailConfig) {
 export async function sendEmail(message:IEmailMessage) {
   const transporter:Transporter = getTransporter(getEmailConfig());
   const info = await transporter.sendMail(message);
-  console.log("Message sent: %s", info.messageId);
+  Logger.log("debug",`Message sent: ${info.messageId}`);
 
 }
