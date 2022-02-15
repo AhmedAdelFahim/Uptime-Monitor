@@ -4,6 +4,7 @@ import URL from "./url.model";
 import JobScheduler from "../../utils/job-scheduler/job-scheduler";
 import {Redis} from "../../utils/redis";
 import {Job} from "bull";
+import Logger from "../../middlewares/logger";
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
@@ -12,6 +13,7 @@ class UserController {
       const {body, user} = req;
       const url: IURL = await URL.create({...body, userId: user.userId})
       const job: Job = await JobScheduler.addJob(url);
+      Logger.log("debug",`URL is created successfully`);
       res.status(201).send({message: "url is created successfully"});
     } catch (e) {
       return next(e);
@@ -31,6 +33,7 @@ class UserController {
       }
       await JobScheduler.removeJob(id);
       const job: Job = await JobScheduler.addJob(updatedURL);
+      Logger.log("debug",`URL is updated successfully`)
       res.status(200).send({message: "url is updated successfully"});
     } catch (e) {
       return next(e);
@@ -61,6 +64,7 @@ class UserController {
       }
       await Redis.deleteKey(id)
       await JobScheduler.removeJob(id);
+      Logger.log("debug",`URL is deleted successfully`);
       res.status(200).send({message: "URL is deleted successfully"})
     } catch (e) {
       return next(e);
