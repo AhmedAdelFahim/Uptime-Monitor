@@ -9,7 +9,8 @@ export const signUp = Joi.object({
   }),
   passwordConfirmation: Joi.ref("password")
 }).with('password', 'passwordConfirmation').messages({
-  "object.with": "Password Confirmation must be matched with password"
+  "object.with": "Password Confirmation must be matched with password",
+  "any.only": "Password Confirmation must be matched with password"
 });
 
 export const login = Joi.object({
