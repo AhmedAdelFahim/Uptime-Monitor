@@ -45,7 +45,8 @@ _go to /api/v1/documentation_
 ## Built With
 
 1. [Nodejs](https://nodejs.org/en/)
-2. [Bull](https://github.com/OptimalBits/bull) (used in handle job scheduling to make App scalable
+2. [Bull](https://github.com/OptimalBits/bull) (used in handle job scheduling to make App scalable)
 
 ## Todo
 1.increase test coverage
+2.deploy app
