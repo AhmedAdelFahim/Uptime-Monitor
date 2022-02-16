@@ -34,8 +34,18 @@ These steps will get you a copy of the project up and running for development an
   npm run build
   npm run start:prod
   ```
+## Running Using Docker
+1. write required variables in docker-compose.yml
+2. Run the following commands:
+  ```
+  docker-compose up
+  ```
 ## Documentation
 _go to /api/v1/documentation_
 ## Built With
 
-[Nodejs](https://nodejs.org/en/)
+1. [Nodejs](https://nodejs.org/en/)
+2. [Bull](https://github.com/OptimalBits/bull) (used in handle job scheduling to make App scalable
+
+## Todo
+1.increase test coverage
