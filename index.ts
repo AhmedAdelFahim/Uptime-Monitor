@@ -9,7 +9,7 @@ const start = async () => {
     checkEnvVariables();
     await startDbConnection();
     JobScheduler.initializeScheduler(checkURL);
-    await JobScheduler.removeAllJobs();
+    // await JobScheduler.removeAllJobs(); 
     JobScheduler.clearCompletedJobs();
     await Redis.initializeRedis();
     app.listen(getConfig().PORT, () => Logger.log("info", `Listening on port ${getConfig().PORT}!`));
