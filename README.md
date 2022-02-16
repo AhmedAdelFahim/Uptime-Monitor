@@ -50,3 +50,4 @@ _go to /api/v1/documentation_
 ## Todo
 1. increase test coverage
 2. deploy app
+3. handle owasp vulnerabilities
