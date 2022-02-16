@@ -17,6 +17,7 @@ export const config = {
     EMAIL_USERNAME: process.env.EMAIL_USERNAME,
     EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
     QUEUE_NAME: process.env.QUEUE_NAME,
+    SERVER_HOST: process.env.SERVER_HOST,
   },
   production: {
     NODE_ENV: process.env.NODE_ENV,
@@ -32,6 +33,7 @@ export const config = {
     EMAIL_USERNAME: process.env.EMAIL_USERNAME,
     EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
     QUEUE_NAME: process.env.QUEUE_NAME,
+    SERVER_HOST: process.env.SERVER_HOST,
   },
   test: {
     NODE_ENV: process.env.NODE_ENV,
@@ -47,11 +49,12 @@ export const config = {
     EMAIL_USERNAME: process.env.EMAIL_USERNAME,
     EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
     QUEUE_NAME: process.env.QUEUE_NAME,
+    SERVER_HOST: process.env.SERVER_HOST,
   }
 }
 
 export const checkEnvVariables = (): void => {
-  const variablesToBeChecked: string[] = ["NODE_ENV", "JWT_KEY", "REDIS_PORT", "REDIS_HOST", "EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD", "JWT_VERIFICATION_KEY","EMAIL_VERIFICATION_URL","QUEUE_NAME"];
+  const variablesToBeChecked: string[] = ["NODE_ENV", "JWT_KEY", "REDIS_PORT", "REDIS_HOST", "EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD", "JWT_VERIFICATION_KEY","EMAIL_VERIFICATION_URL","QUEUE_NAME","SERVER_HOST"];
   const {NODE_ENV} = process.env;
   variablesToBeChecked.forEach((variable: string) => {
     if (!process.env[variable]) {

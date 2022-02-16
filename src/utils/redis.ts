@@ -1,11 +1,14 @@
 import {createClient} from 'redis';
+import { getConfig } from '../../config/config';
 import Logger from "../middlewares/logger";
 
 export class Redis {
   static _client: any;
 
   static async initializeRedis() {
-    this._client = createClient();
+    this._client = createClient({
+      url: `redis://${getConfig().REDIS_HOST}:${getConfig().REDIS_PORT}`
+    });
 
     this._client.on('error', (err: any) => Logger.log("error",`Redis Client Error ${JSON.stringify(err)}`));
     this._client.on("connect", () => Logger.log("info",'Redis connected'))
