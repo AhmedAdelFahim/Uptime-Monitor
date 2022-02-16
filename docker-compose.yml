@@ -8,26 +8,28 @@ services:
       - DB_PRODUCTION_URL=mongodb://root:root@mongodb:27017/url_monitor_development
       - PORT=4000
       - NODE_ENV=production
-      - JWT_KEY=jadshdjhdsajahdsjsadhq8981208dscasdasd
-      - JWT_VERIFICATION_KEY=fsdjhsfdkjhfsdjkfdshjsfdk
+      - JWT_KEY=
+      - JWT_VERIFICATION_KEY=
       - REDIS_HOST=cache
       - REDIS_PORT=6379
       - EMAIL_HOST=smtp.gmail.com
       - EMAIL_PORT=465
-      - EMAIL_USERNAME=urlmonitor.22@gmail.com
-      - EMAIL_PASSWORD=ANONY@@mous
-      - EMAIL_VERIFICATION_URL=http://api:4000/api/v1/users/verify/
+      - EMAIL_USERNAME=
+      - EMAIL_PASSWORD=
+      - EMAIL_VERIFICATION_URL=/api/v1/users/verify/
       - QUEUE_NAME=job-scheduler
+      - SERVER_HOST=http://0.0.0.0:4000
+    ports:
+      - 4000:4000
     depends_on:
       - mongodb
       - cache
   cache:
-    image: redis:6.2-alpine
     container_name: cache
     restart: always
-    ports:
-      - '6379:6379'
-    command: redis-server
+    image: redis:latest
+    ports: 
+      - 6379:6379
     volumes:
       - cache:/data
   mongodb:
