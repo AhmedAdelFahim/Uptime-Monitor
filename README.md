@@ -34,6 +34,8 @@ These steps will get you a copy of the project up and running for development an
   npm run build
   npm run start:prod
   ```
+## Documentation
+_go to /api/v1/documentation_
 ## Built With
 
 [Nodejs](https://nodejs.org/en/)
