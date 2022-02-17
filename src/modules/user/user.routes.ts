@@ -2,7 +2,7 @@ import express from 'express';
 import {validateRequest} from '../../middlewares/validator.middleware';
 
 import UserController from './user.controller';
-import {signUp,login} from "./user.schema";
+import {signUp, login} from './user.schema';
 
 const userRouter = express.Router();
 

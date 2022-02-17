@@ -48,8 +48,10 @@
     "max-len": [
       "error",
       {
-        "code": 100
+        "code": 200
       }
-    ]
+    ],
+    "require-jsdoc":"off",
+    "new-cap":"off"
   }
 }

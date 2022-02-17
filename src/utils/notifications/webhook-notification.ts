@@ -1,29 +1,28 @@
-import {IWebhookNotification} from "./notification.interface";
-import {IURL} from "../../modules/url/url.interface";
-import {IMonitorLogs} from "../../modules/url/monitor-logs/monitor-logs.interface";
-import {buildURL} from "../../modules/url/url.service";
-import Axios from "../axios";
-import Logger from "../../middlewares/logger";
+import {IWebhookNotification} from './notification.interface';
+import {IURL} from '../../modules/url/url.interface';
+import {IMonitorLogs} from '../../modules/url/monitor-logs/monitor-logs.interface';
+import {buildURL} from '../../modules/url/url.service';
+import Axios from '../axios';
+import Logger from '../../middlewares/logger';
 
 export async function notifyByWebhook(notificationData:IWebhookNotification) {
   try {
-    await Axios.post(notificationData.webhookURL,{
+    await Axios.post(notificationData.webhookURL, {
       URLName: notificationData.urlName,
       status: notificationData.status,
-      eventTime: notificationData.eventTime
-    })
+      eventTime: notificationData.eventTime,
+    });
   } catch (e) {
-    Logger.log("warn","error in notifying by webhook")
+    Logger.log('warn', 'error in notifying by webhook');
   }
-
 }
 
-export  function prepareWebhookData(url:IURL,log:IMonitorLogs) : IWebhookNotification {
+export function prepareWebhookData(url:IURL, log:IMonitorLogs) : IWebhookNotification {
   return {
     urlName: url.name,
-    eventTime:log.createdAt,
-    status:log.status,
-    url:buildURL(url).href,
-    webhookURL: url?.webhook || "",
-  }
+    eventTime: log.createdAt,
+    status: log.status,
+    url: buildURL(url).href,
+    webhookURL: url?.webhook || '',
+  };
 }

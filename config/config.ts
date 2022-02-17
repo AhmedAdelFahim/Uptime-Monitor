@@ -1,7 +1,7 @@
-import {IConfig} from "./config.interface";
-import * as dotenv from "dotenv";
+import {IConfig} from './config.interface';
+import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 export const config = {
   development: {
     DB_URL: process.env.DB_DEVELOPMENT_URL,
@@ -50,24 +50,36 @@ export const config = {
     EMAIL_VERIFICATION_URL: process.env.EMAIL_VERIFICATION_URL,
     QUEUE_NAME: process.env.QUEUE_NAME,
     SERVER_HOST: process.env.SERVER_HOST,
-  }
-}
+  },
+};
 
 export const checkEnvVariables = (): void => {
-  const variablesToBeChecked: string[] = ["NODE_ENV", "JWT_KEY", "REDIS_PORT", "REDIS_HOST", "EMAIL_HOST", "EMAIL_PORT", "EMAIL_USERNAME", "EMAIL_PASSWORD", "JWT_VERIFICATION_KEY","EMAIL_VERIFICATION_URL","QUEUE_NAME","SERVER_HOST"];
+  const variablesToBeChecked: string[] = [
+    'NODE_ENV',
+    'JWT_KEY',
+    'REDIS_PORT',
+    'REDIS_HOST',
+    'EMAIL_HOST',
+    'EMAIL_PORT',
+    'EMAIL_USERNAME',
+    'EMAIL_PASSWORD',
+    'JWT_VERIFICATION_KEY',
+    'EMAIL_VERIFICATION_URL',
+    'QUEUE_NAME',
+    'SERVER_HOST'];
   const {NODE_ENV} = process.env;
   variablesToBeChecked.forEach((variable: string) => {
     if (!process.env[variable]) {
       throw new Error(`${variable} must be defined!`);
     }
-  })
+  });
 
-  if (!process.env[`DB_${(NODE_ENV || "").toUpperCase()}_URL`]) {
-    throw new Error(`DB_${(NODE_ENV || "").toUpperCase()}_URL must be defined!`);
+  if (!process.env[`DB_${(NODE_ENV || '').toUpperCase()}_URL`]) {
+    throw new Error(`DB_${(NODE_ENV || '').toUpperCase()}_URL must be defined!`);
   }
-}
+};
 
 export const getConfig = (): IConfig => {
   // @ts-ignore
   return config[process.env.NODE_ENV!]!;
-}
+};

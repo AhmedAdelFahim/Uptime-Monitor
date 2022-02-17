@@ -1,4 +1,4 @@
-import {RequestStatus} from "../../modules/url/monitor-logs/monitor-logs.interface";
+import {RequestStatus} from '../../modules/url/monitor-logs/monitor-logs.interface';
 
 export interface IEmailNotification extends INotification{
   receiverEmail: string;

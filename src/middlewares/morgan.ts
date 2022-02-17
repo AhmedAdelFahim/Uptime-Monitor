@@ -1,4 +1,4 @@
-import morgan, { StreamOptions } from 'morgan';
+import morgan, {StreamOptions} from 'morgan';
 import Logger from './logger';
 
 // Override the stream method by telling
@@ -11,6 +11,6 @@ const stream: StreamOptions = {
 // Build the morgan middleware
 const morganMiddleware = morgan(
   ':method :url :response-time ms',
-  { stream },
+  {stream},
 );
 export default morganMiddleware;

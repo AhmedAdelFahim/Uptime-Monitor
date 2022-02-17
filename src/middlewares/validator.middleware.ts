@@ -1,5 +1,5 @@
-import {IValidationSchema} from "../utils/joi.interface";
-import {Request, Response, NextFunction} from "express";
+import {IValidationSchema} from '../utils/joi.interface';
+import {Request, Response, NextFunction} from 'express';
 
 export function validateRequest(schema: IValidationSchema) {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -20,5 +20,5 @@ export function validateRequest(schema: IValidationSchema) {
     } catch (err) {
       return next(err);
     }
-  }
+  };
 }

@@ -1,59 +1,58 @@
-import request from "supertest";
-import app from "../../../app"
-import {expect} from "chai";
+import request from 'supertest';
+import app from '../../../app';
+import {expect} from 'chai';
 import {
   ValidUserForSigningUp,
   VerifiedUser,
-  NotVerifiedUser
-} from "../../test/user-helper";
+  NotVerifiedUser,
+} from '../../test/user-helper';
 
-describe("User APIs Testing", function () {
-  it("Should signup a new user.", function (done) {
+describe('User APIs Testing', function() {
+  it('Should signup a new user.', function(done) {
     request(app)
-      .post("/api/v1/users/signup")
+      .post('/api/v1/users/signup')
       .send(ValidUserForSigningUp)
       .timeout(5000)
       .expect(
-        201
+        201,
       ).end(done);
   });
 
-  it("Should not signup with existing user.", function (done) {
+  it('Should not signup with existing user.', function(done) {
     request(app)
-      .post("/api/v1/users/signup")
+      .post('/api/v1/users/signup')
       .send({
-        email: VerifiedUser.email,
-        "password": "123456",
-        "passwordConfirmation": "123456"
+        'email': VerifiedUser.email,
+        'password': '123456',
+        'passwordConfirmation': '123456',
       })
       .timeout(5000)
       .expect(
-        400
+        400,
       ).end(done);
   });
 
-  it("Should login to account.", function (done) {
+  it('Should login to account.', function(done) {
     request(app)
-      .post("/api/v1/users/login")
+      .post('/api/v1/users/login')
       .send({email: VerifiedUser.email, password: VerifiedUser.password})
       .expect(
         200,
-      ).expect(function (res) {
-      expect(res.body.data).to.not.equal({
-        email: VerifiedUser.email,
-        password: VerifiedUser.password,
-        isVerified: true
-      });
-
-    }).end(done);
+      ).expect(function(res) {
+        expect(res.body.data).to.not.equal({
+          email: VerifiedUser.email,
+          password: VerifiedUser.password,
+          isVerified: true,
+        });
+      }).end(done);
   });
 
-  it("Should not login to unverified account.", function (done) {
+  it('Should not login to unverified account.', function(done) {
     request(app)
-      .post("/api/v1/users/login")
+      .post('/api/v1/users/login')
       .send({email: NotVerifiedUser.email, password: NotVerifiedUser.password})
       .expect(
         400,
       ).end(done);
   });
-})
+});

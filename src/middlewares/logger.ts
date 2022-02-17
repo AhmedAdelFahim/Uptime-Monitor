@@ -1,6 +1,5 @@
 import winston from 'winston';
-import {getConfig} from "../../config/config";
-
+import {getConfig} from '../../config/config';
 
 // Define your severity levels.
 // With them, You can create log files,
@@ -55,11 +54,11 @@ winston.addColors(levelColors);
 
 // Chose the aspect of your log customizing the log format.
 const format = [
-  winston.format.timestamp({ format: customTimestampFormat }),
+  winston.format.timestamp({format: customTimestampFormat}),
   winston.format((info) => {
     info.level = info.level.toUpperCase();
 
-    if(typeof info.message === 'object'){
+    if (typeof info.message === 'object') {
       info.message = JSON.stringify(info.message, null, 2);
     }
 
@@ -69,13 +68,11 @@ const format = [
 
 const colorizedLoggingFormat = [
   ...format,
-  winston.format.colorize({ level: true }),
+  winston.format.colorize({level: true}),
   winston.format.printf(
     (info) => `[${colorizedDate(info.timestamp)}] [${info.level}] ${info.message}`,
   ),
 ];
-
-
 
 // Define which transports the logger must use to print out messages.
 // In this example, we are using three different transports

@@ -1,20 +1,19 @@
-import {Request, Response, NextFunction} from "express";
-import {IURL} from "./url.interface";
-import URL from "./url.model";
-import JobScheduler from "../../utils/job-scheduler/job-scheduler";
-import {Redis} from "../../utils/redis";
-import {Job} from "bull";
-import Logger from "../../middlewares/logger";
+import {Request, Response, NextFunction} from 'express';
+import {IURL} from './url.interface';
+import URL from './url.model';
+import JobScheduler from '../../utils/job-scheduler/job-scheduler';
+import {Redis} from '../../utils/redis';
+import Logger from '../../middlewares/logger';
 
 class UserController {
   async create(req: Request, res: Response, next: NextFunction) {
     try {
       // @ts-ignore
       const {body, user} = req;
-      const url: IURL = await URL.create({...body, userId: user.userId})
-      const job: Job = await JobScheduler.addJob(url);
-      Logger.log("debug",`URL is created successfully`);
-      res.status(201).send({message: "url is created successfully"});
+      const url: IURL = await URL.create({...body, userId: user.userId});
+      await JobScheduler.addJob(url);
+      Logger.log('debug', 'URL is created successfully');
+      res.status(201).send({message: 'url is created successfully'});
     } catch (e) {
       return next(e);
     }
@@ -24,17 +23,16 @@ class UserController {
     try {
       // @ts-ignore
       const {body, user, params: {id}} = req;
-      const updatedURL: IURL | null = await URL.findOneAndUpdate({userId: user.userId, _id: id}, body, {new: true})
+      const updatedURL: IURL | null = await URL.findOneAndUpdate({userId: user.userId, _id: id}, body, {new: true});
       if (!updatedURL) {
-        const error: any = new Error("URL not found");
+        const error: any = new Error('URL not found');
         error.code = 404;
         throw error;
-
       }
       await JobScheduler.removeJob(id);
-      const job: Job = await JobScheduler.addJob(updatedURL);
-      Logger.log("debug",`URL is updated successfully`)
-      res.status(200).send({message: "url is updated successfully"});
+      await JobScheduler.addJob(updatedURL);
+      Logger.log('debug', 'URL is updated successfully');
+      res.status(200).send({message: 'url is updated successfully'});
     } catch (e) {
       return next(e);
     }
@@ -45,7 +43,7 @@ class UserController {
       // @ts-ignore
       const {user} = req;
       const urls: IURL[] = await URL.find({userId: user.userId});
-      res.status(200).send({data: urls})
+      res.status(200).send({data: urls});
     } catch (e) {
       return next(e);
     }
@@ -57,15 +55,14 @@ class UserController {
       const {params: {id}, user} = req;
       const deletedURL: IURL | null = await URL.findOneAndDelete({_id: id, userId: user.userId});
       if (!deletedURL) {
-        const error: any = new Error("URL not found");
+        const error: any = new Error('URL not found');
         error.code = 404;
         throw error;
-
       }
-      await Redis.deleteKey(id)
+      await Redis.deleteKey(id);
       await JobScheduler.removeJob(id);
-      Logger.log("debug",`URL is deleted successfully`);
-      res.status(200).send({message: "URL is deleted successfully"})
+      Logger.log('debug', 'URL is deleted successfully');
+      res.status(200).send({message: 'URL is deleted successfully'});
     } catch (e) {
       return next(e);
     }

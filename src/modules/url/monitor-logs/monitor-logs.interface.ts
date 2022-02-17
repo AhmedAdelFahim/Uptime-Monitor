@@ -1,8 +1,9 @@
+/* eslint-disable no-unused-vars */
 import {Document, Schema} from 'mongoose';
 
 export enum RequestStatus {
-  UP = "up",
-  DOWN = "down"
+  UP = 'up',
+  DOWN = 'down'
 }
 
 export interface IMonitorLogs extends Document {

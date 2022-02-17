@@ -1,17 +1,17 @@
-import {initialize, teardown} from "./index";
+import {initialize, teardown} from './index';
 
-before(function (done) {
+before(function(done) {
   initialize().then(() => {
-    done()
+    done();
   }).catch((err) => {
-    done(err)
-  })
+    done(err);
+  });
 });
 
-after(function (done) {
+after(function(done) {
   teardown().then(() => {
-    done()
+    done();
   }).catch((err) => {
-    done(err)
-  })
-})
+    done(err);
+  });
+});

@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import {Document, Schema} from 'mongoose';
 
 export enum Protocol {
-  HTTP = "http",
-  HTTPS = "https",
-  TCP = "tcp"
+  HTTP = 'http',
+  HTTPS = 'https',
+  TCP = 'tcp'
 }
 
 export interface IAuthentication {
@@ -25,7 +26,7 @@ export interface IURL extends Document {
   port?: number;
   webhook?: string;
   timeout: number | 5; // seconds
-  interval: string | "10m"; // minutes
+  interval: string | '10m'; // minutes
   threshold: number | 1;
   authentication?: IAuthentication;
   httpHeaders?: object;
