@@ -48,5 +48,6 @@ _go to /api/v1/documentation_
 2. [Bull](https://github.com/OptimalBits/bull) (used in handle job scheduling to make App scalable)
 
 ## Todo
-1.increase test coverage
-2.deploy app
+1. increase test coverage
+2. deploy app
+3. handle owasp vulnerabilities
