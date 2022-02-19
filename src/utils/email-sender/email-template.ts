@@ -7,6 +7,8 @@ export function getVerificationMailHtml(token:string) {
 
 export function getNotificationEmailHtml(emailData:IEmailNotification) {
   return `Hi,
+  </br>
  The monitor ${emailData.urlName} (${emailData.url}) is currently ${emailData.status}
+ </br>
  Event timestamp: ${new Date(emailData.eventTime).toUTCString()}`;
 }
