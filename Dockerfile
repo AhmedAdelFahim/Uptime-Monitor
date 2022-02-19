@@ -8,11 +8,9 @@ RUN ls -alh .
 
 FROM node:14-alpine
 WORKDIR /app
-RUN ls -alh .
 COPY --from=0 /app/dist /app/dist
 COPY --from=0 /app/package.json /app
 COPY --from=0 /app/package-lock.json /app
-RUN ls -alh .
 RUN npm ci --production
 
 EXPOSE 4000
