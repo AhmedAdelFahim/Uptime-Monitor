@@ -11,6 +11,7 @@ import {
   urlUpdateRequestResponses,
 } from '../../modules/url/url.docs';
 import {getReportRequestBody, getReportRequestResponses} from '../../modules/report/report.docs';
+import {getConfig} from "../../../config/config";
 
 export const swaggerDocument = {
   openapi: '3.0.0',
@@ -18,8 +19,20 @@ export const swaggerDocument = {
     version: '1.0.0',
     title: 'Uptime monitoring API Documentation',
   },
-  host: '127.0.0.1:3001',
-  basePath: '/api/v1',
+  "servers": [
+    {
+      "url": "{host}/{basePath}",
+      "description": "The production API server",
+      "variables": {
+        "host": {
+          "default": getConfig().SERVER_HOST,
+        },
+        "basePath": {
+          "default": "api/v1"
+        }
+      }
+    }
+  ],
   paths: {
     '/users/signup': {
       'post': {
