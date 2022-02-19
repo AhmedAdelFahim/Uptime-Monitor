@@ -8,12 +8,7 @@ class JobScheduler {
   static _queue: any;
 
   static initializeScheduler(processCallback: Function) {
-    this._queue = new Queue(getConfig().QUEUE_NAME, {
-      redis: {
-        host: getConfig().REDIS_HOST,
-        port: getConfig().REDIS_PORT,
-      },
-    });
+    this._queue = new Queue(getConfig().QUEUE_NAME, getConfig().REDIS_URL);
 
     this._queue.process(async function(job: Job) {
       Logger.log('info', `Job ${job.id} running`);

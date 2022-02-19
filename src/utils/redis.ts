@@ -7,7 +7,7 @@ export class Redis {
 
   static async initializeRedis() {
     this._client = createClient({
-      url: `redis://${getConfig().REDIS_HOST}:${getConfig().REDIS_PORT}`,
+      url: getConfig().REDIS_URL,
     });
 
     this._client.on('error', (err: any) => Logger.log('error', `Redis Client Error ${JSON.stringify(err)}`));
