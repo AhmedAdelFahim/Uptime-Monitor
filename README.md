@@ -40,14 +40,18 @@ These steps will get you a copy of the project up and running for development an
   ```
   docker-compose up
   ```
-## Documentation
-_go to /api/v1/documentation_
+## [API Documentation](https://url-monitor.herokuapp.com/api/v1/documentation)
+
+## [Demo](https://url-monitor.herokuapp.com)
+
 ## Built With
 
 1. [Nodejs](https://nodejs.org/en/)
 2. [Bull](https://github.com/OptimalBits/bull) (used in handle job scheduling to make App scalable)
+3. [Redis](https://github.com/redis/node-redis)
+4. [Mongodb](https://docs.mongodb.com/)
 
 ## Todo
-1. increase test coverage
-2. deploy app
-3. handle owasp vulnerabilities
+- [ ] increase test coverage
+- [x] deploy app
+- [ ] handle owasp vulnerabilities
